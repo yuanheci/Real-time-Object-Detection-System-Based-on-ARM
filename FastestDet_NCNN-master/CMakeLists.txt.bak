@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.2)
+add_compile_options(-std=c++11)
+project(FastestDet)
+SET(CMAKE_BUILD_TYPE Release)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+find_package(OpenCV REQUIRED)
+find_package(OpenMP REQUIRED)  
+find_package(Threads)
+find_package(PNG REQUIRED)
+include_directories(${PNG_INCLUDE_DIRS})
+if(OPENMP_FOUND)
+	message("OPENMP FOUND")  
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")  
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")  
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")  
+endif()
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+link_directories(${PROJECT_SOURCE_DIR}/lib)
+add_executable(FastestDet src/FastestDet.cpp)
+#target_link_libraries(FastestDet ncnn ${OpenCV_LIBS} ${PROJECT_SOURCE_DIR}/lib/libncnn.a)
+
+# 指定链接的库和路径
+target_link_libraries(FastestDet PRIVATE
+	ncnn
+	${OpenCV_LIBS}
+	${CMAKE_THREAD_LIBS_INIT}  # 如果需要的话，添加线程库
+	${CMAKE_DL_LIBS}           # 如果需要的话，添加动态链接库的支持
+	/home/rsh/png/lib/libpng.a # 指定 libpng 库路径
+	/home/rsh/zlib/lib/libz.a  # 指定 zlib 库路径
+	${PROJECT_SOURCE_DIR}/lib/libncnn.a
+	)
