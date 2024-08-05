@@ -43,10 +43,11 @@
 #### 文件说明
 
 + FastestDet_NCNN-master为算法实现部分 [FastestDet](https://github.com/dog-qiuqiu/FastestDet)
++ readtek是参考移植的wifi驱动代码
 
-- asyncnoti.c 为驱动代码
+- asyncnoti.c、sht20_i2c_driver.c为自己实现的驱动代码
 - v4l2_camera.c 实现了ov2640摄像头流畅捕捉画面，当按下按键时进行ncnn推理完成目标识别。
-- video_v4l2_camera.c 实现了实时目标检测功能（存在一定延时）。
+- video_v4l2_camera.c 实现了实时目标检测功能（存在一定延时）
 
 
 
