@@ -255,6 +255,8 @@ vector<Object> FastestDet::detect(Mat frame)
     int count = picked.size();
 
     objects.resize(count);
+
+    bool flag = false;
     for (int i = 0; i < count; i++)
     {
         objects[i] = proposals[picked[i]];
@@ -272,10 +274,14 @@ vector<Object> FastestDet::detect(Mat frame)
 
         cv::rectangle(frame,objects[i].rect,cv::Scalar(0,255,0),1);
         cv::putText(frame, objects[i].class_name, cv::Point(objects[i].rect.x + objects[i].rect.width - text_size.width - 5, objects[i].rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
+	if(flag == false && objects[i].class_name == "chair"){
+		flag = true;
+		printf("chair");
+	}
     }
 //    cv::imshow("222",frame);
 //    cv::waitKey(0);  
-    cv::imwrite("Fast_res_image.png", frame);
+    cv::imwrite("Fast_res_image2.png", frame);
 
     // fprintf(stderr, "Processed image saved\n");
 
@@ -288,7 +294,7 @@ vector<Object> FastestDet::detect(Mat frame)
 //     exit(EXIT_FAILURE);
 // #endif
 
-    return  objects;
+    return objects;
  
 }
 
